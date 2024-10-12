@@ -11,6 +11,7 @@ abstract class Routes {
   static const SEARCHBOOKED = _Paths.SEARCHBOOKED; 
   static const SEARCHRENT = _Paths.SEARCHRENT; 
   static const NOTIFICATION = _Paths.NOTIFICATION;
+  static const BOOKING = _Paths.BOOKING;
   static const RENT1 = _Paths.RENT1;
   static const RENT2 = _Paths.RENT2;
   static const RENT3 = _Paths.RENT3;
@@ -27,6 +28,7 @@ abstract class _Paths {
   static const SEARCHBOOKED = '/searchbooked';
   static const SEARCHRENT = '/searchrent';
   static const NOTIFICATION = '/notification';
+  static const BOOKING = '/booking';
   static const RENT1 = '/rent1';
   static const RENT2 = '/rent2';
   static const RENT3 = '/rent3';

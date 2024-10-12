@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:rentalin_id/app/modules/Rent/views/rent1_view.dart';
 
+import '../modules/Booking/bindings/booking_binding.dart';
+import '../modules/Booking/views/booking_view.dart';
 import '../modules/Rent/bindings/rent_binding.dart';
 import '../modules/Rent/views/rent2_view.dart';
 import '../modules/Rent/views/rent3_view.dart';
@@ -24,7 +26,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SIGNUP;
+  static const INITIAL = Routes.RENT1;
 
   static final routes = [
     GetPage(
@@ -86,6 +88,11 @@ class AppPages {
       name: _Paths.RENT4, 
       page: () => Rent4View(),
       binding: Rent4Binding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKING, 
+      page: () => const BookingView(),
+      binding: BookingBinding(),
     ),
   ];
 }
