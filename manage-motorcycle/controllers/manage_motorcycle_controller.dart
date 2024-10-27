@@ -6,11 +6,12 @@ import 'package:rentalin_id/app/data/models/motor.dart';
 
 class ManageMotorcycleController extends GetxController {
   //TODO: Implement ManageMotorcycleController
-   static const String _baseUrl = 'http://10.0.2.2:4300/';
+  static const String _baseUrl = 'http://10.0.2.2:4300/';
   static const String _category = 'motor';
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   var motorcycle = {}.obs;
+  
   
   RxList<Datum> data = RxList<Datum>([]);
   RxBool isLoading = false.obs;
@@ -21,12 +22,15 @@ class ManageMotorcycleController extends GetxController {
     super.onInit();
   }
 
-  Future<void> fetchMotorcycleDetails(String id) async {
+  Future<void> fetchMotorcycleDetails(String motorcycleId) async {
     try {
-      DocumentSnapshot doc = await _firestore.collection('Manage Motorcycle').doc(id).get();
-      motorcycle.value = doc.data() as Map<String, dynamic>;
+      var documentSnapshot = await _firestore
+          .collection('Manage Motorcycle')
+          .doc(motorcycleId)
+          .get();
+      motorcycle.value = documentSnapshot.data() ?? {};
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch data: $e');
+      print("Error fetching motorcycle details: $e");
     }
   }
 

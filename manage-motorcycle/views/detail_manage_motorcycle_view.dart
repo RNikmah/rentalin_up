@@ -71,23 +71,20 @@ class DetailManageMotorcycleView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
+                      const Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             "Detail Motor",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
-                          Text(data['Merk Motor'] ?? ''),
-                          Text(data['Motor Name'] ?? ''),
-                          Text(data['Type Motor'] ?? ''),
-                          Text(data['Plat Motor'] ?? ''),
-                          Text(
-                            data['Price'] ?? '',
-                            style: const TextStyle(color: tdgreen),
-                          ),
+                          Text("Merk Motor"),
+                          Text("Motor Name"),
+                          Text("Type Motor"),
+                          Text("Plat Motor"),
+                          Text("Price/Day")
                         ],
                       ),
                       Column(
@@ -97,13 +94,13 @@ class DetailManageMotorcycleView extends StatelessWidget {
                           const Text(
                             "",
                           ),
-                          Text(dataLoad.motorType),
-                          Text(dataLoad.motorName),
-                          const Text("Matic"),
-                          Text(dataLoad.motorPlat),
+                          Text(data['Merk Motor'] ?? ''),
+                          Text(data['Motor Name'] ?? ''),
+                          Text(data['Type Motor'] ?? ''),
+                          Text(data['Plat Motor'] ?? ''),
                           Text(
-                            dataLoad.pricePerDay.toString(),
-                            style: TextStyle(color: tdgreen),
+                            data['Price/Day'] ?? '',
+                            style: const TextStyle(color: tdgreen),
                           ),
                         ],
                       )

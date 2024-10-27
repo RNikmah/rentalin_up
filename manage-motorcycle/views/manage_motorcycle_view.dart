@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 
@@ -13,9 +14,13 @@ import 'package:rentalin_id/app/widgets/search_field.components.dart';
 import '../controllers/manage_motorcycle_controller.dart';
 
 class ManageMotorcycleView extends GetView<ManageMotorcycleController> {
-  const ManageMotorcycleView({super.key});
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final ManageMotorcycleController _controller = Get.put(ManageMotorcycleController());
+  
+  ManageMotorcycleView({super.key});
   @override
   Widget build(BuildContext context) {
+    
     Get.put(ManageMotorcycleController());
     return Scaffold(
       appBar: AppBar(
@@ -113,8 +118,8 @@ class ManageMotorcycleView extends GetView<ManageMotorcycleController> {
                             shrinkWrap: true,
                             itemCount: controller.data.length,
                             itemBuilder: (context, index) {
-                              var data = controller.data[index];
-                              return CardManageMotor(dataLoad:data ,);
+                              var data1 = controller.data[index];
+                              return CardManageMotor(dataLoad:data1, motorcycleId: '' ,);
                             },
                           );
                         }
