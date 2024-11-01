@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -8,23 +7,9 @@ import 'package:rentalin_id/app/widgets/button_main.components.dart';
 import 'package:rentalin_id/app/widgets/input_text.components.dart';
 import 'package:rentalin_id/app/widgets/input_text_noicon.components.dart';
 
-import '../controllers/manage_motorcycle_controller.dart';
-
 class UpdateMotorcycleDetailView extends StatelessWidget {
-
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final ManageMotorcycleController _controller = Get.put(ManageMotorcycleController());
-  late final String motorcycleId;
-  
-  Stream<QuerySnapshot> _getTasks() {
-    return _firestore.collection('Manage Motorcycle').snapshots();
-  }
-  
   @override
   Widget build(BuildContext context) {
-    _controller.fetchMotorcycleDetails(motorcycleId);
-    var data = _controller.motorcycle;
-    
     return Scaffold(
       appBar: AppBar(
           // surfaceTintColor: tdGrey,
@@ -62,10 +47,10 @@ class UpdateMotorcycleDetailView extends StatelessWidget {
               height: 217,
               margin: EdgeInsets.only(top: 10),
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -84,13 +69,13 @@ class UpdateMotorcycleDetailView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const Text(
+                      Text(
                         "",
                       ),
-                      Text(data['Merk Motor'] ?? ''),
-                      Text(data['Motor Name'] ?? ''),
-                      Text(data['Type Motor'] ?? ''),
-                      Text(data['Plat Motor'] ?? ''),
+                      Text("Honda"),
+                      Text("Nmax 2024"),
+                      Text("Matic"),
+                      Text("KH 2012 WG"),
                     ],
                   )
                 ],

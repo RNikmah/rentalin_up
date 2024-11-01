@@ -4,28 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentalin_id/app/data/constant/color.dart';
 import 'package:rentalin_id/app/widgets/app_bar.components.dart';
-import 'package:rentalin_id/app/widgets/button_main.components.dart';
-import 'package:rentalin_id/app/widgets/input_text.components.dart';
 import 'package:rentalin_id/app/widgets/input_text_noicon.components.dart';
 
-import '../controllers/manage_motorcycle_controller.dart';
+import '../controllers/add_motorcyle_controller.dart';
+import '../models/motorcycle.dart';
 
-class AddMotorcycleDetailView extends StatelessWidget {
-
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final ManageMotorcycleController _controller = Get.put(ManageMotorcycleController());
-  late final String motorcycleId;
-  
-  Stream<QuerySnapshot> _getTasks() {
-    return _firestore.collection('Manage Motorcycle').snapshots();
-  }
-
-  AddMotorcycleDetailView({super.key });
-
+class AddMotorcycleDetailView extends GetView<AddMotorcycleController> {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
-    _controller.fetchMotorcycleDetails(motorcycleId);
-    var data = _controller.motorcycle;
+    Get.lazyPut(() => AddMotorcycleController());
+    final Motorcycle motorcycle = Get.arguments;
 
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +51,7 @@ class AddMotorcycleDetailView extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(8))),
               width: 345,
               height: 217,
-              margin: const EdgeInsets.only(top: 10),
+              margin: EdgeInsets.only(top: 10),
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,30 +78,47 @@ class AddMotorcycleDetailView extends StatelessWidget {
                       const Text(
                         "",
                       ),
-                      Text(data['Merk Motor'] ?? ''),
-                      Text(data['Motor Name'] ?? ''),
-                      Text(data['Type Motor'] ?? ''),
-                      Text(data['Plat Motor'] ?? ''),
+                      Text(motorcycle.merkMotor),
+                      Text(motorcycle.motorName),
+                      Text(motorcycle.typeMotor),
+                      Text(motorcycle.platMotor),
                     ],
                   )
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: InputTextNoIcon(
-                labelText: "Is Recommendation",
-                hintText: "Yes",
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Obx(
+                    () => Checkbox(
+                      value: controller.motorcycle.value.isRecommended,
+                      onChanged: (value) {
+                        // Update the controller's value when the checkbox is toggled
+                        controller.motorcycle.value.isRecommended =
+                            value ?? false;
+                      },
+                    ),
+                  ),
+                  const Text('Recommended'),
+                ],
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 10),
               child: InputTextNoIcon(
-                labelText: "Price/Day",
-                hintText: "Rp. 150.000",
-              ),
+                  labelText: "Price/Day",
+                  hintText: "Rp. 150.000",
+                  onChanged: (value) {
+                    double? price = double.tryParse(value);
+                    if (price != null) {
+                      controller.motorcycle.value.pricePerDay = price;
+                    }
+                  }),
             ),
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
             Row(
@@ -131,13 +137,13 @@ class AddMotorcycleDetailView extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: tdBlue,
                       backgroundColor: Colors.white, // Text color
-                      side: const BorderSide(color: tdBlue), // Border color
+                      side: BorderSide(color: tdBlue), // Border color
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(8), // Rounded corners
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Go Back',
                       style: TextStyle(
                         color: Colors.blue,
@@ -152,7 +158,17 @@ class AddMotorcycleDetailView extends StatelessWidget {
                   width: 163,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      CollectionReference addMotor =
+                          firestore.collection("Manage MotorCycle");
+                      await addMotor.add({
+                        'Merk Motor': motorcycle.merkMotor,
+                        'Motor Name': motorcycle.motorName,
+                        'Plat Motor': motorcycle.platMotor,
+                        'Price/Day': motorcycle.pricePerDay,
+                        'Recommendation': motorcycle.isRecommended,
+                        'Type Motor': motorcycle.typeMotor
+                      });
                       // Define what happens when "Add New" is pressed
                     },
                     style: ElevatedButton.styleFrom(
@@ -163,7 +179,7 @@ class AddMotorcycleDetailView extends StatelessWidget {
                             BorderRadius.circular(8), // Rounded corners
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Add New',
                       style: TextStyle(
                         color: Colors.white,
